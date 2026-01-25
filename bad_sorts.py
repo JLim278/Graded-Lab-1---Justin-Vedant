@@ -88,7 +88,8 @@ def find_min_index(L, n):
             min_index = i
     return min_index
 
-# --- Main function ---
+# --- EXPERIMENT 1 --- 
+# Compare runtimes of insertion, bubble and selection sort
 
 def experiment():
     # Experimental Parameters
