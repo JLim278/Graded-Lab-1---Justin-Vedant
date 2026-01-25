@@ -137,3 +137,99 @@ def experiment():
 
 if __name__ == "__main__":
     experiment()
+
+
+
+
+
+
+# ******************* Experiment 2 *******************
+# bubblesort2() implementation 
+def bubblesort2(L):
+    n = len(L)
+    for end in range(n - 1, 0, -1):
+        swapped = False
+        for j in range(end):
+            if L[j] > L[j + 1]:
+                swap(L, j, j + 1)
+                swapped = True
+        if not swapped:
+            return
+
+# selectionsort2 implementation
+def selection_sort2(L):
+    left = 0
+    right = len(L) - 1
+    while left < right:
+        min_i = left
+        max_i = left
+        for i in range(left, right + 1):
+            if L[i] < L[min_i]:
+                min_i = i
+            if L[i] > L[max_i]:
+                max_i = i
+        swap(L, left, min_i)
+        if max_i == left:
+            max_i = min_i
+        swap(L, right, max_i)
+        left += 1
+        right -= 1
+
+def time_sort(sort_fn, L):
+    A = L.copy()
+    start = timeit.default_timer()
+    sort_fn(A)
+    return timeit.default_timer() - start
+
+    # Bubble: original vs new
+def experiment_2_bubble(sizes, max_value, runs, swaps=10, seed=0):
+    random.seed(seed)
+    orig_times = []
+    new_times = []
+    for n in sizes:
+        t1, t2 = [], []
+        for _ in range(runs):
+            L = create_near_sorted_list(n, max_value, swaps)
+            t1.append(time_sort(bubble_sort, L))
+            t2.append(time_sort(bubblesort2, L))
+
+        orig_times.append(sorted(t1)[len(t1) // 2])
+        new_times.append(sorted(t2)[len(t2) // 2])
+    plt.figure()
+    plt.plot(sizes, orig_times, label="bubble_sort")
+    plt.plot(sizes, new_times, label="bubblesort2")
+    plt.xlabel("List length (n)")
+    plt.ylabel("Time (seconds)")
+    plt.title(f"Experiment 2: Bubble Sort Comparison (near sorted, swaps={swaps})")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+    # Selection: original vs new 
+def experiment_2_selection(sizes, max_value, runs, seed=0):
+    random.seed(seed)
+    orig_times = []
+    new_times = []
+    for n in sizes:
+        t1, t2 = [], []
+        for _ in range(runs):
+            L = create_random_list(n, max_value)
+            t1.append(time_sort(selection_sort, L))
+            t2.append(time_sort(selection_sort2, L))
+
+        orig_times.append(sorted(t1)[len(t1) // 2])
+        new_times.append(sorted(t2)[len(t2) // 2])
+    plt.figure()
+    plt.plot(sizes, orig_times, label="selection_sort")
+    plt.plot(sizes, new_times, label="selection_sort2")
+    plt.xlabel("List length (n)")
+    plt.ylabel("Time (seconds)")
+    plt.title("Experiment 2: Selection Sort Comparison (random)")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+if __name__ == "__main__":
+    sizes = [100, 200, 400, 600, 800, 1000, 1200, 1400, 1600]
+    experiment_2_bubble(sizes, max_value=10000, runs=5, swaps=10, seed=0)
+    experiment_2_selection(sizes, max_value=10000, runs=5, seed=0)
