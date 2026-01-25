@@ -139,7 +139,7 @@ if __name__ == "__main__":
 
 
 
-# ******************* Experiment 2 *******************
+# --- Experiment 2 ---
 # bubblesort2() implementation 
 def bubblesort2(L):
     n = len(L)
@@ -177,7 +177,7 @@ def time_sort(sort_fn, L):
     sort_fn(A)
     return timeit.default_timer() - start
 
-    # Bubble: original vs new
+# Bubble: original vs new
 def experiment_2_bubble(sizes, max_value, runs, swaps=10, seed=0):
     random.seed(seed)
     orig_times = []
@@ -201,7 +201,7 @@ def experiment_2_bubble(sizes, max_value, runs, swaps=10, seed=0):
     plt.tight_layout()
     plt.show()
 
-    # Selection: original vs new 
+# Selection: original vs new 
 def experiment_2_selection(sizes, max_value, runs, seed=0):
     random.seed(seed)
     orig_times = []
