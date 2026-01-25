@@ -134,4 +134,4 @@ def experiment1():
     plt.show()
 
 if __name__ == "__main__":
-    experiment()
+    experiment1()
