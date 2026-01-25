@@ -91,7 +91,7 @@ def find_min_index(L, n):
 # --- EXPERIMENT 1 --- 
 # Compare runtimes of insertion, bubble and selection sort
 
-def experiment():
+def experiment1():
     # Experimental Parameters
     list_lengths = [10, 50, 100, 300, 500, 700, 1000] # List lengths (n)
     runs = 10  # Number of runs to average per data point
@@ -101,10 +101,9 @@ def experiment():
         "Bubble Sort": [],
         "Selection Sort": [],
         "Insertion Sort": [],
-        "Insertion Sort (Opt)": []
     }
 
-    print(f"Starting experiments (Averaging {runs} runs per length)...")
+    print(f"Starting experiment1")
 
     for n in list_lengths:
         print(f"Testing length: {n}")
@@ -114,7 +113,6 @@ def experiment():
             ("Bubble Sort", lambda: bubble_sort(create_random_list(n, 1000))),
             ("Selection Sort", lambda: selection_sort(create_random_list(n, 1000))),
             ("Insertion Sort", lambda: insertion_sort(create_random_list(n, 1000))),
-            ("Insertion Sort (Opt)", lambda: insertion_sort2(create_random_list(n, 1000)))
         ]
 
         for name, test_func in tests:
@@ -122,13 +120,13 @@ def experiment():
             time_taken = timeit.timeit(test_func, number=runs) / runs
             results[name].append(time_taken)
 
-    # --- Plotting the Results ---
+    # Plotting the Results
     plt.figure(figsize=(10, 6))
     
     for name, times in results.items():
         plt.plot(list_lengths, times, marker='o', label=name)
 
-    plt.title("Sorting Algorithm Performance (Random Lists)")
+    plt.title("Bad Sorting Algorithm Performance")
     plt.xlabel("List Length (n)")
     plt.ylabel("Average Time (seconds)")
     plt.legend()
@@ -136,4 +134,4 @@ def experiment():
     plt.show()
 
 if __name__ == "__main__":
-    experiment()
+    experiment1()
