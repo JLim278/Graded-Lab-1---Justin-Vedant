@@ -141,7 +141,7 @@ if __name__ == "__main__":
 
 # ******************* Experiment 2 *******************
 # bubblesort2() implementation 
-def bubblesort2(L):
+def bubble_sort2(L):
     n = len(L)
     for end in range(n - 1, 0, -1):
         swapped = False
