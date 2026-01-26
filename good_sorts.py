@@ -10,6 +10,7 @@ In contains traditional implementations for:
 Author: Vincent Maccio
 """
 import random
+import sys
 import timeit
 import matplotlib.pyplot as plt
 
@@ -228,5 +229,77 @@ if __name__ == "__main__":
     sizes = [500, 1000, 2000, 4000, 8000, 16000]
     experiment_4(sizes, max_value=100000, runs=5, seed=0)
 
+
+
+
+# ************* Experiment 5 *************
+# Helper functions
+def swap(L, i, j):
+    L[i], L[j] = L[j], L[i]
+
+def create_random_list(length, max_value):
+    return [random.randint(0, max_value) for _ in range(length)]
+
+def create_near_sorted_list(length, max_value, swaps):
+    L = create_random_list(length, max_value)
+    L.sort()
+    for _ in range(swaps):
+        r1 = random.randint(0, length - 1)
+        r2 = random.randint(0, length - 1)
+        swap(L, r1, r2)
+    return L
+
+def experiment5():
+    sys.setrecursionlimit(20000)
+
+    list_length = 2500
+    max_value = 10000
+    n_runs = 5
+    swaps_list = [0, 1, 2, 5, 10, 25, 50, 100, 250, 500, 1000]
+
+    times_quick = []
+    times_merge = []
+    times_heap = []
+
+    for swaps in swaps_list:
+        sum_quick = 0.0
+        sum_merge = 0.0
+        sum_heap = 0.0
+
+        for _ in range(n_runs):
+            L = create_near_sorted_list(list_length, max_value, swaps)
+
+            A = L.copy()
+            start = timeit.default_timer()
+            quicksort(A)
+            sum_quick += (timeit.default_timer() - start)
+
+            A = L.copy()
+            start = timeit.default_timer()
+            mergesort(A)
+            sum_merge += (timeit.default_timer() - start)
+
+            A = L.copy()
+            start = timeit.default_timer()
+            heapsort(A)
+            sum_heap += (timeit.default_timer() - start)
+
+        times_quick.append(sum_quick / n_runs)
+        times_merge.append(sum_merge / n_runs)
+        times_heap.append(sum_heap / n_runs)
+
+    plt.figure()
+    plt.plot(swaps_list, times_quick, label="quicksort")
+    plt.plot(swaps_list, times_merge, label="mergesort")
+    plt.plot(swaps_list, times_heap, label="heapsort")
+    plt.xlabel("Number of swaps")
+    plt.ylabel("time (sec)")
+    plt.title(f"Experiment 5: swaps vs time)")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+if __name__ == "__main__":
+    experiment5()
 
 
