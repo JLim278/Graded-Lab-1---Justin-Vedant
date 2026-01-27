@@ -232,72 +232,58 @@ if __name__ == "__main__":
 
 
 
-# ************* Experiment 5 *************
-# Helper functions
-def swap(L, i, j):
-    L[i], L[j] = L[j], L[i]
-
-def create_random_list(length, max_value):
-    return [random.randint(0, max_value) for _ in range(length)]
-
-def create_near_sorted_list(length, max_value, swaps):
-    L = create_random_list(length, max_value)
-    L.sort()
-    for _ in range(swaps):
-        r1 = random.randint(0, length - 1)
-        r2 = random.randint(0, length - 1)
-        swap(L, r1, r2)
-    return L
+# --- EXPERIMENT 5 ---
+from bad_sorts import create_near_sorted_list
 
 def experiment5():
-    sys.setrecursionlimit(20000)
-
+    # Experimental Parameters
     list_length = 2500
     max_value = 10000
-    n_runs = 5
+    runs = 5
     swaps_list = [0, 1, 2, 5, 10, 25, 50, 100, 250, 500, 1000]
 
-    times_quick = []
-    times_merge = []
-    times_heap = []
+    sys.setrecursionlimit(20000)
+
+    results = {
+        "Quick Sort": [],
+        "Merge Sort": [],
+        "Heap Sort": [],
+    }
+
+    print("Starting experiment5")
 
     for swaps in swaps_list:
-        sum_quick = 0.0
-        sum_merge = 0.0
-        sum_heap = 0.0
+        print(f"Testing swaps: {swaps}")
 
-        for _ in range(n_runs):
-            L = create_near_sorted_list(list_length, max_value, swaps)
+        # Create the near sorted list once per data point, then copy inside each test
+        base = create_near_sorted_list(list_length, max_value, swaps)
+        tests = [
+            ("Quick Sort", lambda: quicksort(base.copy())),
+            ("Merge Sort", lambda: mergesort(base.copy())),
+            ("Heap Sort",  lambda: heapsort(base.copy())),
+        ]
 
-            A = L.copy()
-            start = timeit.default_timer()
-            quicksort(A)
-            sum_quick += (timeit.default_timer() - start)
+        for name, test_func in tests:
+            time_taken = timeit.timeit(test_func, number=runs) / runs
+            results[name].append(time_taken)
 
-            A = L.copy()
-            start = timeit.default_timer()
-            mergesort(A)
-            sum_merge += (timeit.default_timer() - start)
+    # Plotting
+    plt.figure(figsize=(10, 6))
 
-            A = L.copy()
-            start = timeit.default_timer()
-            heapsort(A)
-            sum_heap += (timeit.default_timer() - start)
-
-        times_quick.append(sum_quick / n_runs)
-        times_merge.append(sum_merge / n_runs)
-        times_heap.append(sum_heap / n_runs)
-
-    plt.figure()
-    plt.plot(swaps_list, times_quick, label="quicksort")
-    plt.plot(swaps_list, times_merge, label="mergesort")
-    plt.plot(swaps_list, times_heap, label="heapsort")
+    for name, times in results.items():
+        plt.plot(swaps_list, times, linewidth=1.5, label=name)
+    plt.title(f"Experiment 5: swaps vs time")
     plt.xlabel("Number of swaps")
-    plt.ylabel("time (sec)")
-    plt.title(f"Experiment 5: swaps vs time)")
+    plt.ylabel("Average Time (sec)")
     plt.legend()
+    plt.grid(True)
     plt.tight_layout()
     plt.show()
+
+
+if __name__ == "__main__":
+    experiment5()
+
 
 
 # ************* Experiment 6 *************
