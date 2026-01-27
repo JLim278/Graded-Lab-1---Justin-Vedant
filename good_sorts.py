@@ -397,8 +397,8 @@ if __name__ == "__main__":
 from bad_sorts import insertion_sort, create_random_list
 def experiment8():
     # Experimental parameters (small n)
-    list_lengths = [2, 5, 10, 15, 20, 30, 40, 50, 75, 100, 150, 200, 300, 400, 500]
-    runs = 200
+    list_lengths = [2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 60, 75, 100]
+    runs = 300
     max_value = 10000
 
     results = {
@@ -441,9 +441,9 @@ def experiment8():
 
     # Plotting
     plt.figure(figsize=(10, 6))
-    plt.plot(list_lengths, results["Insertion Sort"], marker="o", label="Insertion Sort")
-    plt.plot(list_lengths, results["Merge Sort"], marker="s", label="Merge Sort")
-    plt.plot(list_lengths, results["Quick Sort"], marker="^", label="Quick Sort")
+    plt.plot(list_lengths, results["Insertion Sort"], linewidth=1.5, label="Insertion Sort")
+    plt.plot(list_lengths, results["Merge Sort"], linewidth=1.5, label="Merge Sort")
+    plt.plot(list_lengths, results["Quick Sort"], linewidth=1.5, label="Quick Sort")
     plt.title("Experiment 8: Insertion vs Merge vs Quick (in small lists)")
     plt.xlabel("List Length (n)")
     plt.ylabel("Average Time (seconds)")
@@ -451,6 +451,8 @@ def experiment8():
     plt.grid(True)
     plt.tight_layout()
     plt.show()
+    plt.yscale("log")
+    
 
 if __name__ == "__main__":
     experiment8()
