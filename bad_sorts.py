@@ -175,15 +175,50 @@ def selection_sort2(L):
         left += 1
         right -= 1
 
+    
 
+# EXPERIMENT 2 VARIATIONS
+# Bubble Sort variation
+def bubble_sort2(L):
+    n = len(L)
+    for i in range(n):
+        for j in range(1, n - i):
+            if L[j] < L[j - 1]:
+                value = L[j]
+                k = j
+                while k > 0 and L[k - 1] > value:
+                    L[k] = L[k - 1]
+                    k -= 1
+                L[k] = value
 
-# --- EXPERIMENT 2 ---
-# Compare original Bubble/Selection vs their variations
+# Selection Sort variation
+def selection_sort2(L):
+    left = 0
+    right = len(L) - 1
+
+    while left < right:
+        min_i = left
+        max_i = left
+
+        for i in range(left, right + 1):
+            if L[i] < L[min_i]:
+                min_i = i
+            if L[i] > L[max_i]:
+                max_i = i
+
+        swap(L, left, min_i)
+        if max_i == left:
+            max_i = min_i
+        swap(L, right, max_i)
+        left += 1
+        right -= 1
+
+# EXPERIMENT 2 
 def experiment2():
     sizes = [100, 200, 400, 600, 800, 1000, 1200, 1400, 1600]
     runs = 5
     max_value = 10000
-    swaps = 10  
+    swaps = 10 
 
     bubble_results = {
         "Bubble Sort": [],
@@ -197,7 +232,7 @@ def experiment2():
 
     print("Starting experiment2")
 
-    # Bubble (near-sorted input)
+    # Bubble (near sorted) 
     for n in sizes:
         print(f"Bubble n={n}")
 
@@ -213,9 +248,9 @@ def experiment2():
     plt.figure(figsize=(10, 6))
     for name, times in bubble_results.items():
         plt.plot(sizes, times, marker='o', label=name)
-    plt.title(f"Experiment 2: Bubble Sort vs Bubble Sort 2 (near sorted)")
+    plt.title("Experiment 2: Bubble Sort vs Bubble Sort 2 (near-sorted)")
     plt.xlabel("List Length (n)")
-    plt.ylabel("Average Time (sec)")
+    plt.ylabel("Average Time (seconds)")
     plt.legend()
     plt.grid(True)
     plt.show()
@@ -238,14 +273,14 @@ def experiment2():
         plt.plot(sizes, times, marker='o', label=name)
     plt.title("Experiment 2: Selection Sort vs Selection Sort 2 (random)")
     plt.xlabel("List Length (n)")
-    plt.ylabel("Average Time (sec)")
+    plt.ylabel("Average Time (seconds)")
     plt.legend()
     plt.grid(True)
     plt.show()
 
+
 if __name__ == "__main__":
     experiment2()
-
 
 
 
