@@ -122,12 +122,6 @@ def run_experiment2():
     plt.tight_layout()
     plt.show()
 
-    # Report outline prints
-    print("List lengths:", list_lengths)
-    print("Algorithms tested: bubble_sort vs bubblesort2; selection_sort vs selectionsort2")
-    print(f"Data types: near-sorted for bubble (swaps={swaps}); random for selection; values in [0, {max_value}]")
-    print("Number of runs:", runs)
-
 
 if __name__ == "__main__":
     run_experiment2()
