@@ -5,7 +5,7 @@ import bad_sorts as bad
 
 
 # Experiment 2: bubble variation
-# Shift-based bubble
+# Shift based bubble
 def bubblesort2(L):
     n = len(L)
     for end in range(n - 1, 0, -1):
@@ -14,7 +14,7 @@ def bubblesort2(L):
             if L[j] >= L[j - 1]:
                 j += 1
             else:
-                value = L[j]   # keep the value we are inserting
+                value = L[j]
                 k = j
                 # shift bigger values right until value belongs
                 while k > 0 and L[k - 1] > value:
@@ -25,7 +25,7 @@ def bubblesort2(L):
 
 
 # Experiment 2: selection variation
-# Track min and max each pass, place both, shrink boundaries
+# Track min and max each pass, shrink boundaries
 def selectionsort2(L):
     left = 0
     right = len(L) - 1
@@ -43,7 +43,7 @@ def selectionsort2(L):
         # place min at left
         L[left], L[min_i] = L[min_i], L[left]
 
-        # fix max index if it got moved by the min swap
+        # fix max index if got moved by min swap
         if max_i == left:
             max_i = min_i
 
@@ -86,7 +86,7 @@ def run_experiment2():
     gen_bubble = lambda n, max_value: bad.create_near_sorted_list(n, max_value, swaps)
     gen_select = bad.create_random_list
 
-    # Bubble vs Bubble2 (near-sorted input)
+    # Bubble vs Bubble2 (near-sorted)
     bubble_times = []
     bubble2_times = []
     for n in list_lengths:
@@ -99,12 +99,12 @@ def run_experiment2():
     plt.plot(list_lengths, bubble2_times, marker="o", label="bubblesort2 (shift)")
     plt.xlabel("List length (n)")
     plt.ylabel("Average time (seconds)")
-    plt.title(f"Experiment 2: Bubble Sort vs bubblesort2 (near-sorted, swaps={swaps})")
+    plt.title(f"Experiment 2: Bubble Sort vs bubblesort2")
     plt.legend()
     plt.tight_layout()
     plt.show()
 
-    # Selection vs Selection2 (random input)
+    # Selection vs Selection2 (random)
     selection_times = []
     selection2_times = []
     for n in list_lengths:
@@ -117,7 +117,7 @@ def run_experiment2():
     plt.plot(list_lengths, selection2_times, marker="o", label="selectionsort2 (min+max)")
     plt.xlabel("List length (n)")
     plt.ylabel("Average time (seconds)")
-    plt.title("Experiment 2: Selection Sort vs selectionsort2 (random)")
+    plt.title("Experiment 2: Selection Sort vs selectionsort2")
     plt.legend()
     plt.tight_layout()
     plt.show()
