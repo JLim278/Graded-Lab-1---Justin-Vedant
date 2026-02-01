@@ -8,16 +8,20 @@ import bad_sorts as bad
 # Shift-based bubble
 def bubblesort2(L):
     n = len(L)
-    for _ in range(n):
-        for j in range(n - 1):
-            if L[j] > L[j + 1]:
-                value = L[j]   # the "too big" value
+    for end in range(n - 1, 0, -1):
+        j = 1
+        while j <= end:
+            if L[j] >= L[j - 1]:
+                j += 1
+            else:
+                value = L[j]   # keep the value we are inserting
                 k = j
-                # shift smaller values left until value belongs
-                while k < n - 1 and value > L[k + 1]:
-                    L[k] = L[k + 1]
-                    k += 1
+                # shift bigger values right until value belongs
+                while k > 0 and L[k - 1] > value:
+                    L[k] = L[k - 1]
+                    k -= 1
                 L[k] = value
+                j += 1
 
 
 # Experiment 2: selection variation
@@ -77,14 +81,16 @@ def run_experiment2():
     list_lengths = [200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000]
     runs = 5
     max_value = 10**6
+    swaps = 10
 
-    gen = bad.create_random_list
+    gen_bubble = lambda n, max_value: bad.create_near_sorted_list(n, max_value, swaps)
+    gen_select = bad.create_random_list
 
-    # Bubble vs Bubble2
+    # Bubble vs Bubble2 (near-sorted input)
     bubble_times = []
     bubble2_times = []
     for n in list_lengths:
-        t1, t2 = avg_pair_times(bad.bubble_sort, bubblesort2, n, runs, max_value, gen)
+        t1, t2 = avg_pair_times(bad.bubble_sort, bubblesort2, n, runs, max_value, gen_bubble)
         bubble_times.append(t1)
         bubble2_times.append(t2)
 
@@ -93,16 +99,16 @@ def run_experiment2():
     plt.plot(list_lengths, bubble2_times, marker="o", label="bubblesort2 (shift)")
     plt.xlabel("List length (n)")
     plt.ylabel("Average time (seconds)")
-    plt.title("Experiment 2: Bubble Sort vs bubblesort2")
+    plt.title(f"Experiment 2: Bubble Sort vs bubblesort2 (near-sorted, swaps={swaps})")
     plt.legend()
     plt.tight_layout()
     plt.show()
 
-    # Selection vs Selection2
+    # Selection vs Selection2 (random input)
     selection_times = []
     selection2_times = []
     for n in list_lengths:
-        t1, t2 = avg_pair_times(bad.selection_sort, selectionsort2, n, runs, max_value, gen)
+        t1, t2 = avg_pair_times(bad.selection_sort, selectionsort2, n, runs, max_value, gen_select)
         selection_times.append(t1)
         selection2_times.append(t2)
 
@@ -111,7 +117,7 @@ def run_experiment2():
     plt.plot(list_lengths, selection2_times, marker="o", label="selectionsort2 (min+max)")
     plt.xlabel("List length (n)")
     plt.ylabel("Average time (seconds)")
-    plt.title("Experiment 2: Selection Sort vs selectionsort2")
+    plt.title("Experiment 2: Selection Sort vs selectionsort2 (random)")
     plt.legend()
     plt.tight_layout()
     plt.show()
@@ -119,7 +125,7 @@ def run_experiment2():
     # Report outline prints
     print("List lengths:", list_lengths)
     print("Algorithms tested: bubble_sort vs bubblesort2; selection_sort vs selectionsort2")
-    print("Data types: random integer lists in [0, 1000000]")
+    print(f"Data types: near-sorted for bubble (swaps={swaps}); random for selection; values in [0, {max_value}]")
     print("Number of runs:", runs)
 
 
