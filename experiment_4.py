@@ -24,7 +24,6 @@ def median(times):
 
 
 def experiment_4(sizes, max_value=100000, runs=5):
-    # Needed because quicksort is recursive
     sys.setrecursionlimit(20000)
 
     algs = [

@@ -5,7 +5,6 @@ from bad_sorts import insertion_sort, create_random_list
 from good_sorts import mergesort, quicksort
 
 # ************* Experiment 8 *************
-from bad_sorts import insertion_sort, create_random_list
 def experiment8():
     # Experimental parameters
     list_lengths = [2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 60, 75, 100]
@@ -55,7 +54,7 @@ def experiment8():
     plt.plot(list_lengths, results["Insertion Sort"], linewidth=1.5, label="Insertion Sort")
     plt.plot(list_lengths, results["Merge Sort"], linewidth=1.5, label="Merge Sort")
     plt.plot(list_lengths, results["Quick Sort"], linewidth=1.5, label="Quick Sort")
-    plt.title("Experiment 8: Insertion vs Merge vs Quick (in small lists)")
+    plt.title("Experiment 8: Insertion vs Merge vs Quick")
     plt.xlabel("List Length (n)")
     plt.ylabel("Average Time (seconds)")
     plt.legend()
