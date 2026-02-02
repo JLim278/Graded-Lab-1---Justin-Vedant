@@ -3,8 +3,6 @@ This file corresponds to the first graded lab of 2XC3.
 Feel free to modify and/or add functions to this file.
 """
 import random
-import timeit
-import matplotlib.pyplot as plt
 
 # Create a random list length "length" containing whole numbers between 0 and max_value inclusive
 def create_random_list(length, max_value):
@@ -88,91 +86,3 @@ def find_min_index(L, n):
             min_index = i
     return min_index
 
-# --- EXPERIMENT 1 --- 
-# Compare runtimes of insertion, bubble and selection sort
-
-def experiment1():
-    # Experimental Parameters
-    list_lengths = [10, 50, 100, 300, 500, 700, 1000] # List lengths (n)
-    runs = 10  # Number of runs to average per data point
-    
-    # Storage for results
-    results = {
-        "Bubble Sort": [],
-        "Selection Sort": [],
-        "Insertion Sort": [],
-    }
-
-    print(f"Starting experiment1")
-
-    for n in list_lengths:
-        print(f"Testing length: {n}")
-        
-        # Define the tests
-        tests = [
-            ("Bubble Sort", lambda: bubble_sort(create_random_list(n, 1000))),
-            ("Selection Sort", lambda: selection_sort(create_random_list(n, 1000))),
-            ("Insertion Sort", lambda: insertion_sort(create_random_list(n, 1000))),
-        ]
-
-        for name, test_func in tests:
-            # Time the execution
-            time_taken = timeit.timeit(test_func, number=runs) / runs
-            results[name].append(time_taken)
-
-    # Plotting the Results
-    plt.figure(figsize=(10, 6))
-    
-    for name, times in results.items():
-        plt.plot(list_lengths, times, marker='o', label=name)
-
-    plt.title("Bad Sorting Algorithm Performance")
-    plt.xlabel("List Length (n)")
-    plt.ylabel("Average Time (seconds)")
-    plt.legend()
-    plt.grid(True)
-    plt.show()
-
-
-
-
-
-
-
-#--- EXPERIMENT 3 ---
-def experiment3():
-    # Parameters
-    length = 5000 
-    swap_values = [0, 100, 500, 1000, 5000, 10000, 20000, 30000]
-    runs = 10
-    
-    results = {"Bubble Sort": [], "Selection Sort": [], "Insertion Sort": []}
-
-    print(f"Running Experiment 3 (n={length})...")
-
-    for s in swap_values:
-        print(f"Testing swaps: {s}")
-        
-        test_bubble = lambda: bubble_sort(create_near_sorted_list(length, 1000, s))
-        test_selection = lambda: selection_sort(create_near_sorted_list(length, 1000, s))
-        test_insertion = lambda: insertion_sort(create_near_sorted_list(length, 1000, s))
-
-        results["Bubble Sort"].append(timeit.timeit(test_bubble, number=runs) / runs)
-        results["Selection Sort"].append(timeit.timeit(test_selection, number=runs) / runs)
-        results["Insertion Sort"].append(timeit.timeit(test_insertion, number=runs) / runs)
-
-    # Plotting
-    plt.figure(figsize=(10, 6))
-    for name, times in results.items():
-        plt.plot(list(swap_values), times, marker='o', label=name)
-
-    plt.title(f"Impact of Sortedness on Performance")
-    plt.xlabel("Number of Swaps")
-    plt.ylabel("Average Time (seconds)")
-    plt.legend()
-    plt.grid(True)
-    plt.show()
-
-
-if __name__ == "__main__":
-    experiment3()
