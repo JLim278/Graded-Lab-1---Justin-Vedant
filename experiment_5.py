@@ -1,7 +1,6 @@
 import sys
 import timeit
 import matplotlib.pyplot as plt
-
 from good_sorts import quicksort, mergesort, heapsort
 from bad_sorts import create_near_sorted_list
 
@@ -26,7 +25,7 @@ def experiment5():
     for swaps in swaps_list:
         print(f"Testing swaps: {swaps}")
 
-        # Create the near sorted list once per data point, then copy inside each test
+        # Create the near sorted list once per data point then copy inside each test
         base = create_near_sorted_list(list_length, max_value, swaps)
         tests = [
             ("Quick Sort", lambda: quicksort(base.copy())),

@@ -1,27 +1,24 @@
-import random
 import timeit
 import matplotlib.pyplot as plt
-import bad_sorts as bad
-
+from bad_sorts import bubble_sort, selection_sort, create_random_list, create_near_sorted_list
 
 # Experiment 2: bubble variation
 # Shift based bubble
 def bubblesort2(L):
     n = len(L)
     for end in range(n - 1, 0, -1):
-        j = 1
-        while j <= end:
-            if L[j] >= L[j - 1]:
+        j = 0
+        while j < end:
+            if L[j] <= L[j + 1]:
                 j += 1
             else:
                 value = L[j]
                 k = j
-                # shift bigger values right until value belongs
-                while k > 0 and L[k - 1] > value:
-                    L[k] = L[k - 1]
-                    k -= 1
+                while k < end and value > L[k + 1]:
+                    L[k] = L[k + 1]
+                    k += 1
                 L[k] = value
-                j += 1
+                j = k
 
 
 # Experiment 2: selection variation
@@ -29,7 +26,7 @@ def bubblesort2(L):
 def selectionsort2(L):
     left = 0
     right = len(L) - 1
-
+    
     while left < right:
         min_i = left
         max_i = left
@@ -40,87 +37,86 @@ def selectionsort2(L):
             if L[i] > L[max_i]:
                 max_i = i
 
-        # place min at left
         L[left], L[min_i] = L[min_i], L[left]
 
-        # fix max index if got moved by min swap
         if max_i == left:
             max_i = min_i
 
-        # place max at right
         L[right], L[max_i] = L[max_i], L[right]
-
         left += 1
         right -= 1
 
 
-def avg_pair_times(sort_a, sort_b, n, runs, max_value, gen_fn):
+
+def avg_pair_times(sort_a, sort_b, n, runs, max_value, near=False):
     total_a = 0.0
     total_b = 0.0
 
     for _ in range(runs):
-        base = gen_fn(n, max_value)
+        if near:
+            base = create_near_sorted_list(n, max_value, 10)
+        else:
+            base = create_random_list(n, max_value)
 
-        a = base.copy()
+        A = base.copy()
         start = timeit.default_timer()
-        sort_a(a)
+        sort_a(A)
         total_a += timeit.default_timer() - start
 
-        b = base.copy()
+        B = base.copy()
         start = timeit.default_timer()
-        sort_b(b)
+        sort_b(B)
         total_b += timeit.default_timer() - start
 
     return total_a / runs, total_b / runs
 
 
+
 # plotting (2 graphs)
 def run_experiment2():
-    random.seed(0)
 
     list_lengths = [200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000]
     runs = 5
     max_value = 10**6
-    swaps = 10
 
-    gen_bubble = lambda n, max_value: bad.create_near_sorted_list(n, max_value, swaps)
-    gen_select = bad.create_random_list
-
-    # Bubble vs Bubble2 (near-sorted)
+    # Bubble (near sorted) 
     bubble_times = []
     bubble2_times = []
+
     for n in list_lengths:
-        t1, t2 = avg_pair_times(bad.bubble_sort, bubblesort2, n, runs, max_value, gen_bubble)
+        t1, t2 = avg_pair_times(bubble_sort, bubblesort2, n, runs, max_value, near=True)
         bubble_times.append(t1)
         bubble2_times.append(t2)
 
-    plt.figure()
-    plt.plot(list_lengths, bubble_times, marker="o", label="bubble_sort (given)")
-    plt.plot(list_lengths, bubble2_times, marker="o", label="bubblesort2 (shift)")
-    plt.xlabel("List length (n)")
-    plt.ylabel("Average time (seconds)")
-    plt.title(f"Experiment 2: Bubble Sort vs bubblesort2")
+    plt.figure(figsize=(10, 6))
+    plt.plot(list_lengths, bubble_times, marker='o', label="bubble_sort")
+    plt.plot(list_lengths, bubble2_times, marker='o', label="bubblesort2")
+    plt.title("Experiment 2: Bubble Sort vs bubblesort2")
+    plt.xlabel("List Length (n)")
+    plt.ylabel("Average Time (seconds)")
     plt.legend()
-    plt.tight_layout()
+    plt.grid(True)
     plt.show()
 
-    # Selection vs Selection2 (random)
+    # Selection (random)
     selection_times = []
     selection2_times = []
+
     for n in list_lengths:
-        t1, t2 = avg_pair_times(bad.selection_sort, selectionsort2, n, runs, max_value, gen_select)
+        t1, t2 = avg_pair_times(selection_sort, selectionsort2, n, runs, max_value)
         selection_times.append(t1)
         selection2_times.append(t2)
 
-    plt.figure()
-    plt.plot(list_lengths, selection_times, marker="o", label="selection_sort (given)")
-    plt.plot(list_lengths, selection2_times, marker="o", label="selectionsort2 (min+max)")
-    plt.xlabel("List length (n)")
-    plt.ylabel("Average time (seconds)")
+    plt.figure(figsize=(10, 6))
+    plt.plot(list_lengths, selection_times, marker='o', label="selection_sort")
+    plt.plot(list_lengths, selection2_times, marker='o', label="selectionsort2")
     plt.title("Experiment 2: Selection Sort vs selectionsort2")
+    plt.xlabel("List Length (n)")
+    plt.ylabel("Average Time (seconds)")
     plt.legend()
-    plt.tight_layout()
+    plt.grid(True)
     plt.show()
+
 
 
 if __name__ == "__main__":

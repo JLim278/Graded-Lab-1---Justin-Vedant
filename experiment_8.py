@@ -7,7 +7,7 @@ from good_sorts import mergesort, quicksort
 # ************* Experiment 8 *************
 from bad_sorts import insertion_sort, create_random_list
 def experiment8():
-    # Experimental parameters (small n)
+    # Experimental parameters
     list_lengths = [2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 25, 30, 40, 50, 60, 75, 100]
     runs = 300
     max_value = 10000
@@ -23,7 +23,7 @@ def experiment8():
     for n in list_lengths:
         print(f"Testing length: {n}")
 
-        # Use the same list for all three algorithms each run
+        # Use same list for all three algorithms each run
         total_ins = 0.0
         total_mer = 0.0
         total_qui = 0.0
