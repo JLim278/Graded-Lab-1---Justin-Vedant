@@ -1,6 +1,6 @@
 import timeit
 import matplotlib.pyplot as plt
-from bad_sorts import bubble_sort, selection_sort, create_random_list, create_near_sorted_list
+from src.bad_sorts import bubble_sort, selection_sort, create_random_list, create_near_sorted_list
 
 # Experiment 2: bubble variation
 # Shift based bubble

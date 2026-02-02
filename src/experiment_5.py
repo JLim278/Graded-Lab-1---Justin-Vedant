@@ -1,8 +1,8 @@
 import sys
 import timeit
 import matplotlib.pyplot as plt
-from good_sorts import quicksort, mergesort, heapsort
-from bad_sorts import create_near_sorted_list
+from src.good_sorts import quicksort, mergesort, heapsort
+from src.bad_sorts import create_near_sorted_list
 
 # --- EXPERIMENT 5 ---
 def experiment5():

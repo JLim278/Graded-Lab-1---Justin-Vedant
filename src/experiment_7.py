@@ -1,8 +1,8 @@
 import timeit
 import matplotlib.pyplot as plt
 
-from bad_sorts import create_random_list
-from good_sorts import mergesort, merge
+from src.bad_sorts import create_random_list
+from src.good_sorts import mergesort, merge
 
 
 # ************* Experiment 7 *************

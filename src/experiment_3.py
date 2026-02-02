@@ -1,6 +1,6 @@
 import timeit
 import matplotlib.pyplot as plt
-from bad_sorts import bubble_sort, selection_sort, insertion_sort, create_near_sorted_list
+from src.bad_sorts import bubble_sort, selection_sort, insertion_sort, create_near_sorted_list
 
 
 #--- EXPERIMENT 3 ---

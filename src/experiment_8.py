@@ -1,8 +1,8 @@
 import timeit
 import matplotlib.pyplot as plt
 
-from bad_sorts import insertion_sort, create_random_list
-from good_sorts import mergesort, quicksort
+from src.bad_sorts import insertion_sort, create_random_list
+from src.good_sorts import mergesort, quicksort
 
 # ************* Experiment 8 *************
 def experiment8():

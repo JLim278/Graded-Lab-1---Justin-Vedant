@@ -1,6 +1,6 @@
 import timeit
 import matplotlib.pyplot as plt
-from bad_sorts import bubble_sort, selection_sort, insertion_sort, create_random_list
+from src.bad_sorts import bubble_sort, selection_sort, insertion_sort, create_random_list
 
 
 # --- EXPERIMENT 1 --- 
@@ -50,4 +50,3 @@ def experiment1():
 
 if __name__ == "__main__":
     experiment1()
-    
