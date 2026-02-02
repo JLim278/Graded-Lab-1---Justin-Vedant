@@ -2,8 +2,8 @@ import timeit
 import matplotlib.pyplot as plt
 import sys
 
-from src.bad_sorts import create_random_list
-from src.good_sorts import quicksort
+from bad_sorts import create_random_list
+from good_sorts import quicksort
 
 
 # ************* Experiment 6 *************

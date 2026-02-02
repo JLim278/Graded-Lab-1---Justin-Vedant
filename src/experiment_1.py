@@ -1,6 +1,6 @@
 import timeit
 import matplotlib.pyplot as plt
-from src.bad_sorts import bubble_sort, selection_sort, insertion_sort, create_random_list
+from bad_sorts import bubble_sort, selection_sort, insertion_sort, create_random_list
 
 
 # --- EXPERIMENT 1 --- 
