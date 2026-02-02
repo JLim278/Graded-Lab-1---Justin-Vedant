@@ -17,7 +17,7 @@ def experiment8():
         "Quick Sort": [],
     }
 
-    print("Starting Experiment 8")
+    print("Experiment 8")
 
     for n in list_lengths:
         print(f"Testing length: {n}")
@@ -61,7 +61,6 @@ def experiment8():
     plt.grid(True)
     plt.tight_layout()
     plt.show()
-    plt.yscale("log")
 
 if __name__ == "__main__":
     experiment8()
