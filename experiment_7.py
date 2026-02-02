@@ -15,7 +15,6 @@ def bottom_up_mergesort(L):
     while window_size < n:
         for i in range(0, n, 2 * window_size):
             # Define boundaries for the two sub-lists
-            # Python slicing handles indices out of bounds
             left = L[i : i + window_size]
             right = L[i + window_size : i + 2 * window_size]
             

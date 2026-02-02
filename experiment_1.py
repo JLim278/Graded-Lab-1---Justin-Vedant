@@ -48,3 +48,6 @@ def experiment1():
     plt.grid(True)
     plt.show()
 
+if __name__ == "__main__":
+    experiment1()
+    

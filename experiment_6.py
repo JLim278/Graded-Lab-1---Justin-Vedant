@@ -86,3 +86,6 @@ def experiment6():
     plt.legend()
     plt.grid(True)
     plt.show()
+
+if __name__ == "__main__":
+    experiment6()
